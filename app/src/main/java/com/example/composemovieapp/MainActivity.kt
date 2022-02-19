@@ -50,6 +50,7 @@ fun MyApp(content: @Composable ()-> Unit){
             systemUiController.setStatusBarColor(color = Color.Magenta)
 
         }
+        content()
 
 
     }

@@ -17,13 +17,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.composemovieapp.model.Movie
+import com.example.composemovieapp.model.getMovies
+import com.example.composemovieapp.navigation.MovieScreens
+import com.example.composemovieapp.widgets.MovieRow
 
 @Composable
 fun HomeScreen(navController: NavController){
     Scaffold(
         topBar = {
             TopAppBar(
-                backgroundColor = Color.Magenta,
+                backgroundColor = Color.Transparent,
                 elevation = 0.dp
             ) {
                 Text(text = "Movies")
@@ -36,8 +40,7 @@ fun HomeScreen(navController: NavController){
 
 @Composable
 fun MainContent(
-    movieList: List<String> = listOf("Harry Potter","Avatar","300","Life","Happiness.."
-        ,"Meet the Spartan","God Father","Interstellar","The Martin","Ice Age","Distance"),
+    movieList: List<Movie> = getMovies(),
     navController: NavController
 ){
     Column() {
@@ -46,44 +49,10 @@ fun MainContent(
         ){
             items(items = movieList){ item->
                 MovieRow(movie = item){
-                    Log.e("TAG", "MainContent: Movie name: $it" )
+                   navController.navigate(MovieScreens.DetailsScreen.name+"/${it.id}")
                 }
             }
         }
     }
 }
 
-@Composable
-fun MovieRow(movie: String,onItemClick: (String)-> Unit){
-
-    Card(
-        modifier = Modifier
-            .padding(4.dp)
-            .fillMaxWidth()
-            .height(130.dp)
-            .clickable {
-                onItemClick(movie)
-            },
-        shape = RoundedCornerShape(corner = CornerSize(16.dp)),
-        elevation = 6.dp
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
-        ) {
-            Surface(
-                modifier = Modifier
-                    .padding(12.dp)
-                    .size(100.dp),
-                shape = RectangleShape,
-                elevation = 4.dp
-            ) {
-                Icon(imageVector = Icons.Default.AccountBox, contentDescription = "icons")
-
-            }
-            Text(text = movie)
-
-        }
-    }
-
-}

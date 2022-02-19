@@ -1,9 +1,12 @@
 package com.example.composemovieapp.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.composemovieapp.screens.details.DetailScreen
 import com.example.composemovieapp.screens.home.HomeScreen
 
 @Composable
@@ -16,8 +19,13 @@ fun MovieNavigation(){
         composable(MovieScreens.HomeScreen.name){
             HomeScreen(navController)
         }
-        composable(MovieScreens.DetailsScreen.name){
-            //Details Screen
+        composable(MovieScreens.DetailsScreen.name+"/{movie}",
+        arguments = listOf(navArgument(name = "movie"){
+            type = NavType.StringType
+        })
+            ){ backStackEntry ->
+
+            DetailScreen(navController,backStackEntry.arguments?.getString("movie"))
         }
     }
 }
