@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.composemovieapp.navigation.MovieNavigation
 import com.example.composemovieapp.ui.theme.ComposeMovieAppTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -30,7 +31,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp {
-                MainContent()
+                MovieNavigation()
             }
         }
     }
@@ -50,78 +51,16 @@ fun MyApp(content: @Composable ()-> Unit){
 
         }
 
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    backgroundColor = Color.Magenta,
-                    elevation = 0.dp
-                ) {
-                    Text(text = "Movies")
-                }
-            }
-        ) {
-           content()
-        }
+
     }
 }
 
-@Composable
-fun MainContent(
-    movieList: List<String> = listOf("Harry Potter","Avatar","300","Life","Happiness.."
-    ,"Meet the Spartan","God Father","Interstellar","The Martin","Ice Age","Distance")
-){
-    Column() {
-        LazyColumn(
-            contentPadding = PaddingValues(12.dp)
-        ){
-            items(items = movieList){ item->
-                MovieRow(movie = item){
-                    Log.e("TAG", "MainContent: Movie name: $it" )
-                }
-            }
-        }
-    }
-}
 
-@Composable
-fun MovieRow(movie: String,onItemClick: (String)-> Unit){
-
-    Card(
-        modifier = Modifier
-            .padding(4.dp)
-            .fillMaxWidth()
-            .height(130.dp)
-            .clickable {
-                onItemClick(movie)
-            },
-        shape = RoundedCornerShape(corner = CornerSize(16.dp)),
-        elevation = 6.dp
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
-        ) {
-            Surface(
-                modifier = Modifier
-                    .padding(12.dp)
-                    .size(100.dp),
-                shape = RectangleShape,
-                elevation = 4.dp
-            ) {
-              Icon(imageVector = Icons.Default.AccountBox, contentDescription = "icons")
-
-            }
-            Text(text = movie)
-
-        }
-    }
-
-}
 
 @Preview
 @Composable
 fun View(){
     MyApp {
-        MainContent()
+        MovieNavigation()
     }
 }
