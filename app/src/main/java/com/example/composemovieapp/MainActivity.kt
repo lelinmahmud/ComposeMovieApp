@@ -1,8 +1,11 @@
 package com.example.composemovieapp
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -72,20 +75,25 @@ fun MainContent(
             contentPadding = PaddingValues(12.dp)
         ){
             items(items = movieList){ item->
-                MovieRow(movie = item)
+                MovieRow(movie = item){
+                    Log.e("TAG", "MainContent: Movie name: $it" )
+                }
             }
         }
     }
 }
 
 @Composable
-fun MovieRow(movie: String){
+fun MovieRow(movie: String,onItemClick: (String)-> Unit){
 
     Card(
         modifier = Modifier
             .padding(4.dp)
             .fillMaxWidth()
-            .height(130.dp),
+            .height(130.dp)
+            .clickable {
+                onItemClick(movie)
+            },
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
         elevation = 6.dp
     ) {
